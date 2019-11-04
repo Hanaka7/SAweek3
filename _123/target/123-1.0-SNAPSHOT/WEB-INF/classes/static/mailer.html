@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+    </script>
+    <title>mail sender</title>
+    <script>
+        $(document).ready(function() {
+            $("#validate").click(function() {
+                $.ajax({
+                    url: "senderapi/rest/decidemail",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        url: $("#email").val()
+                    }),
+                    success: function(response) {
+                        if (response.msg == "succeed") {
+                            $("#decideResult").html("succeed");
+                        } else {
+                            $("#decideResult").html("fail");
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                        $("#decideResult").html("请求失败");
+                    }
+                })
+            });
+        });
+
+        $(document).ready(function() {
+            $("#sendEmail").click(function(){
+                $.ajax({
+                    url: "senderapi/rest/sendmailbatch",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        url: getEmail(),
+                        payload: $("#payload").val()
+                    }),
+                    success: function(response){
+                        console.log(response);
+                        if(response.msg == "succeed"){
+                            $("#sendResult").html("succeed");
+                        }else{
+                            $("#sendResult").html("fail");
+                        }
+                    },
+                    error: function(response){
+                        console.log(response);
+                        $("#sendResult").html("请求失败");
+                    }
+                })
+            })
+        })
+
+        function getEmail(){
+            var rawEmail = $("#email").val();
+            rawEmail=rawEmail.replace(/\s+/g, "");
+            var res = rawEmail.split(";");
+            return res;
+        }
+    </script>
+</head>
+
+
+
+<p>
+<div>
+    <h1>Email:
+        <button id="validate" style="margin-mid: 100px;height: 30px;">validate</button>
+        <label id="decideResult"></label>
+    </h1>
+    <textarea id="email" style="width: 300px;height: 100px;"></textarea>
+    <h1>PayLoad:
+        <button id="sendEmail" style="margin-left: 80px;height: 30px;">Send</button>
+        <label id="sendResult"></label>
+    </h1>
+    <textarea id="payload" style="width: 300px;height: 600px;"></textarea>
+</div>
+</p>
+
+</html>

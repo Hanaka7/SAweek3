@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="sa/wsdemo"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="sa/wsdemo">
+
+    <element name="deciderequest">
+        <complexType>
+            <sequence>
+                <element name="url" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="userrequest">
+        <complexType>
+            <sequence>
+                <element name="url" type="string"/>
+                <element name="payload" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="strlist">
+        <list itemType="string"/>
+    </simpleType>
+
+
+    <element name="usersbatchrequest">
+        <complexType>
+            <sequence>
+                <element name="url" type="tns:strlist"/>
+                <element name="payload" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="userresponse">
+        <complexType>
+            <sequence>
+                <element name="msg" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+
+
+</schema>
